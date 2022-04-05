@@ -4,6 +4,7 @@ parent:
 -->
 
 <div align="center">
+  <img src="https://user-images.githubusercontent.com/102999403/161656793-7a826432-de47-46ea-b212-72907f462b7d.gif" />
   <h1> Echelon </h1>
 </div>
 
