@@ -34,6 +34,9 @@ cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["deposit_params"
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
+# Decrease the block time target spacing 1000ms = 1s
+cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["time_iota_ms"]="1000"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+
 # Set gas limit in genesis
 cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
@@ -43,7 +46,7 @@ current_date=$(date -u +"%Y-%m-%dT%TZ")
 cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims records for validator account
-amount_to_claim=10000
+amount_to_claim=1000000
 cat $HOME/.echelond/config/genesis.json | jq -r --arg node_address "$node_address" --arg amount_to_claim "$amount_to_claim" '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":$amount_to_claim, "actions_completed":[false, false, false, false],"address":$node_address}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims decay
@@ -85,14 +88,14 @@ if [[ $1 == "pending" ]]; then
   fi
 fi
 
-# Allocate genesis accounts (cosmos formatted addresses)
+# Allocate genesis accounts (cosmos formatted addresses) 100 million to evm
 echelond add-genesis-account $KEY 100000000000000000000000000aechelon --keyring-backend $KEYRING
 
 # Update total supply with claim values
 validators_supply=$(cat $HOME/.echelond/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-total_supply=100000000000000000000010000
+total_supply=10000000000000000000001000000
 cat $HOME/.echelond/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Sign genesis transaction
