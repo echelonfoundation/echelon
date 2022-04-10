@@ -1,7 +1,7 @@
 {
   "name": "echelon",
   "version": "1.0.0",
-  "description": "<!-- parent:   order: false -->",
+  "description": "Echelon Cosmos/EVM Blockchain",
   "main": "index.js",
   "directories": {
     "doc": "docs"

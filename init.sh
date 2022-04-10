@@ -1,6 +1,6 @@
 KEY="mykey"
 CHAINID="echelon_3000-3"
-MONIKER="localtestnet"
+MONIKER="Genesis"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
@@ -88,18 +88,18 @@ if [[ $1 == "pending" ]]; then
   fi
 fi
 
-# Allocate genesis accounts (cosmos formatted addresses) 100 million to evm
-echelond add-genesis-account $KEY 100000000000000000000000000aechelon --keyring-backend $KEYRING
+# Allocate genesis accounts (cosmos formatted addresses) 150 million to evm
+echelond add-genesis-account $KEY 150000000000000000000000000aechelon --keyring-backend $KEYRING
 
 # Update total supply with claim values
 validators_supply=$(cat $HOME/.echelond/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-total_supply=10000000000000000000001000000
+total_supply=150000000000000000001000000
 cat $HOME/.echelond/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Sign genesis transaction
-echelond gentx $KEY 1000000000000000000000aechelon --keyring-backend $KEYRING --chain-id $CHAINID
+echelond gentx $KEY 1500000000000000000000aechelon --keyring-backend $KEYRING --chain-id $CHAINID
 
 # Collect genesis tx
 echelond collect-gentxs

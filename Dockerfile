@@ -1,23 +1,30 @@
-FROM golang:stretch AS build-env
+FROM golang:1.18.0-alpine3.15 as builder
 
-WORKDIR /go/src/github.com/echelonfoundation/echelon
+LABEL author="echelonfoundation"
 
-RUN apt update
-RUN apt install git -y
+RUN apk add --update-cache \
+    git \
+    gcc \
+    musl-dev \
+    linux-headers \
+    make \
+    wget
 
-COPY . .
+RUN git clone https://github.com/echelonfoundation/echelon.git /echelon && \
+    #chmod -R 755 /echelon && \
+    chmod -R 755 /echelon
+WORKDIR /echelon
+RUN make install
 
-RUN make build
+# final image
+FROM golang:1.18.0-alpine3.15
 
-FROM golang:stretch
+RUN mkdir -p /data
 
-RUN apt update
-RUN apt install ca-certificates jq -y
+VOLUME ["/data"]
 
-WORKDIR /root
-
-COPY --from=build-env /go/src/github.com/echelonfoundation/echelon/build/echelond /usr/bin/echelond
+COPY --from=builder /go/bin/echelond /usr/local/bin/echelond
 
 EXPOSE 26656 26657 1317 9090
 
-CMD ["echelond"]
+ENTRYPOINT ["echelond"]
