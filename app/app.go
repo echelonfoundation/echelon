@@ -107,9 +107,9 @@ import (
 
 	"github.com/echelonfoundation/echelon/v3/app/ante"
 	v2 "github.com/echelonfoundation/echelon/v3/app/upgrades/v2"
-	"github.com/echelonfoundation/echelon/v3/x/claims"
-	claimskeeper "github.com/echelonfoundation/echelon/v3/x/claims/keeper"
-	claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	// "github.com/echelonfoundation/echelon/v3/x/claims"
+	// claimskeeper "github.com/echelonfoundation/echelon/v3/x/claims/keeper"
+	// claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 	"github.com/echelonfoundation/echelon/v3/x/epochs"
 	epochskeeper "github.com/echelonfoundation/echelon/v3/x/epochs/keeper"
 	epochstypes "github.com/echelonfoundation/echelon/v3/x/epochs/types"
@@ -187,7 +187,7 @@ var (
 		erc20.AppModuleBasic{},
 		incentives.AppModuleBasic{},
 		epochs.AppModuleBasic{},
-		claims.AppModuleBasic{},
+		// claims.AppModuleBasic{},
 		recovery.AppModuleBasic{},
 	)
 
@@ -202,7 +202,7 @@ var (
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 		inflationtypes.ModuleName:      {authtypes.Minter},
 		erc20types.ModuleName:          {authtypes.Minter, authtypes.Burner},
-		claimstypes.ModuleName:         nil,
+		// claimstypes.ModuleName:         nil,
 		incentivestypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
 	}
 
@@ -264,7 +264,7 @@ type Echelon struct {
 
 	// Echelon keepers
 	InflationKeeper  inflationkeeper.Keeper
-	ClaimsKeeper     *claimskeeper.Keeper
+	// ClaimsKeeper     *claimskeeper.Keeper
 	Erc20Keeper      erc20keeper.Keeper
 	IncentivesKeeper incentiveskeeper.Keeper
 	EpochsKeeper     epochskeeper.Keeper
@@ -325,7 +325,7 @@ func NewEchelon(
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
 		// echelon keys
 		inflationtypes.StoreKey, erc20types.StoreKey, incentivestypes.StoreKey,
-		epochstypes.StoreKey, claimstypes.StoreKey, vestingtypes.StoreKey,
+		epochstypes.StoreKey, vestingtypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -424,10 +424,10 @@ func NewEchelon(
 		authtypes.FeeCollectorName,
 	)
 
-	app.ClaimsKeeper = claimskeeper.NewKeeper(
-		appCodec, keys[claimstypes.StoreKey], app.GetSubspace(claimstypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, &stakingKeeper, app.DistrKeeper,
-	)
+	// app.ClaimsKeeper = claimskeeper.NewKeeper(
+	// 	appCodec, keys[claimstypes.StoreKey], app.GetSubspace(claimstypes.ModuleName),
+	// 	app.AccountKeeper, app.BankKeeper, &stakingKeeper, app.DistrKeeper,
+	// )
 
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
@@ -436,7 +436,7 @@ func NewEchelon(
 		stakingtypes.NewMultiStakingHooks(
 			app.DistrKeeper.Hooks(),
 			app.SlashingKeeper.Hooks(),
-			app.ClaimsKeeper.Hooks(),
+			// app.ClaimsKeeper.Hooks(),
 		),
 	)
 
@@ -466,7 +466,7 @@ func NewEchelon(
 
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
-			app.ClaimsKeeper.Hooks(),
+			// app.ClaimsKeeper.Hooks(),
 		),
 	)
 
@@ -474,7 +474,7 @@ func NewEchelon(
 		evmkeeper.NewMultiEvmHooks(
 			app.Erc20Keeper.Hooks(),
 			app.IncentivesKeeper.Hooks(),
-			app.ClaimsKeeper.Hooks(),
+			// app.ClaimsKeeper.Hooks(),
 		),
 	)
 
@@ -488,7 +488,8 @@ func NewEchelon(
 
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
 		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
-		app.ClaimsKeeper, // ICS4 Wrapper: claims IBC middleware
+		app.IBCKeeper.ChannelKeeper,
+		// app.ClaimsKeeper, // ICS4 Wrapper: claims IBC middleware
 		app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
 	)
@@ -499,12 +500,12 @@ func NewEchelon(
 		app.BankKeeper,
 		app.IBCKeeper.ChannelKeeper,
 		app.TransferKeeper,
-		app.ClaimsKeeper,
+		// app.ClaimsKeeper,
 	)
 
 	// Set the ICS4 wrappers for claims and recovery middlewares
 	app.RecoveryKeeper.SetICS4Wrapper(app.IBCKeeper.ChannelKeeper)
-	app.ClaimsKeeper.SetICS4Wrapper(app.RecoveryKeeper)
+	// app.ClaimsKeeper.SetICS4Wrapper(app.RecoveryKeeper)
 	// NOTE: ICS4 wrapper for Transfer Keeper already set
 
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
@@ -518,7 +519,7 @@ func NewEchelon(
 	var transferStack porttypes.IBCModule
 
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
-	transferStack = claims.NewIBCMiddleware(*app.ClaimsKeeper, transferStack)
+	// transferStack = claims.NewIBCMiddleware(*app.ClaimsKeeper, transferStack)
 	transferStack = recovery.NewIBCMiddleware(*app.RecoveryKeeper, transferStack)
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -572,7 +573,7 @@ func NewEchelon(
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		incentives.NewAppModule(app.IncentivesKeeper, app.AccountKeeper),
 		epochs.NewAppModule(appCodec, app.EpochsKeeper),
-		claims.NewAppModule(appCodec, *app.ClaimsKeeper),
+		// claims.NewAppModule(appCodec, *app.ClaimsKeeper),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		recovery.NewAppModule(*app.RecoveryKeeper),
 	)
@@ -608,7 +609,7 @@ func NewEchelon(
 		vestingtypes.ModuleName,
 		inflationtypes.ModuleName,
 		erc20types.ModuleName,
-		claimstypes.ModuleName,
+		// claimstypes.ModuleName,
 		incentivestypes.ModuleName,
 		recoverytypes.ModuleName,
 	)
@@ -622,7 +623,7 @@ func NewEchelon(
 		feemarkettypes.ModuleName,
 		// Note: epochs' endblock should be "real" end of epochs, we keep epochs endblock at the end
 		epochstypes.ModuleName,
-		claimstypes.ModuleName,
+		// claimstypes.ModuleName,
 		// no-op modules
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
@@ -657,7 +658,7 @@ func NewEchelon(
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		// NOTE: staking requires the claiming hook
-		claimstypes.ModuleName,
+		// claimstypes.ModuleName,
 		stakingtypes.ModuleName,
 		slashingtypes.ModuleName,
 		govtypes.ModuleName,
@@ -990,7 +991,7 @@ func initParamsKeeper(
 	// echelon subspaces
 	paramsKeeper.Subspace(inflationtypes.ModuleName)
 	paramsKeeper.Subspace(erc20types.ModuleName)
-	paramsKeeper.Subspace(claimstypes.ModuleName)
+	// paramsKeeper.Subspace(claimstypes.ModuleName)
 	paramsKeeper.Subspace(incentivestypes.ModuleName)
 	paramsKeeper.Subspace(recoverytypes.ModuleName)
 	return paramsKeeper

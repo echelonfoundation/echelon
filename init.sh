@@ -41,17 +41,17 @@ cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["time_i
 cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims start time
-node_address=$(echelond keys list | grep  "address: " | cut -c12-)
-current_date=$(date -u +"%Y-%m-%dT%TZ")
-cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+# node_address=$(echelond keys list | grep  "address: " | cut -c12-)
+# current_date=$(date -u +"%Y-%m-%dT%TZ")
+# cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims records for validator account
-amount_to_claim=1000000
-cat $HOME/.echelond/config/genesis.json | jq -r --arg node_address "$node_address" --arg amount_to_claim "$amount_to_claim" '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":$amount_to_claim, "actions_completed":[false, false, false, false],"address":$node_address}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+# amount_to_claim=1000000
+# cat $HOME/.echelond/config/genesis.json | jq -r --arg node_address "$node_address" --arg amount_to_claim "$amount_to_claim" '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":$amount_to_claim, "actions_completed":[false, false, false, false],"address":$node_address}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims decay
-cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["duration_of_decay"]="1000000s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
-cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["duration_until_decay"]="100000s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+# cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["duration_of_decay"]="1000000s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+# cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["duration_until_decay"]="100000s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Claim module account:
 # 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || echelon15cvq3ljql6utxseh0zau9m8ve2j8erz8jy7kzu
@@ -95,7 +95,7 @@ echelond add-genesis-account $KEY 150000000000000000000000000aechelon --keyring-
 validators_supply=$(cat $HOME/.echelond/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-total_supply=150000000000000000001000000
+total_supply=15000000000000000000 # 1000000
 cat $HOME/.echelond/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Sign genesis transaction

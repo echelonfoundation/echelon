@@ -10,7 +10,7 @@ import (
 	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 
-	claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	// claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 )
 
 // BankKeeper defines the banking keeper that must be fulfilled when
@@ -43,6 +43,6 @@ type ChannelKeeper interface {
 }
 
 // ClaimsKeeper defines the expected claims keeper.
-type ClaimsKeeper interface {
-	GetParams(ctx sdk.Context) claimstypes.Params
-}
+// type ClaimsKeeper interface {
+// 	GetParams(ctx sdk.Context) claimstypes.Params
+// }
