@@ -23,11 +23,11 @@ var (
 	// IBC address attestations in order to migrate claimable amounts. By default
 	// only Osmosis and Cosmos Hub channels are authorized
 	DefaultAuthorizedChannels = []string{
-		"channel-0", // Osmosis
-		"channel-3", // Cosmos Hub
+		// "channel-0", // Osmosis
+		// "channel-3", // Cosmos Hub
 	}
 	DefaultEVMChannels = []string{
-		"channel-2", // Injective
+		// "channel-2", // Injective
 	}
 )
 
@@ -87,7 +87,7 @@ func NewParams(
 // for the claims module.
 func DefaultParams() Params {
 	return Params{
-		EnableClaims:       true,
+		EnableClaims:       false,
 		ClaimsDenom:        DefaultClaimsDenom,
 		AirdropStartTime:   time.Time{},
 		DurationUntilDecay: DefaultDurationUntilDecay,
