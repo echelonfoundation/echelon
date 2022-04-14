@@ -1,9 +1,10 @@
-KEY="mykey"
+KEY="yourkey"
 CHAINID="echelon_3000-3"
-MONIKER="Genesis"
-KEYRING="test"
+MONIKER="Yournodename"
+KEYRING="file"
+KEYPASSWD=""
 KEYALGO="eth_secp256k1"
-LOGLEVEL="info"
+LOGLEVEL="warn"
 # to trace evm
 #TRACE="--trace"
 TRACE=""
@@ -22,7 +23,7 @@ echelond config keyring-backend $KEYRING
 echelond config chain-id $CHAINID
 
 # if $KEY exists it should be deleted
-echelond keys add $KEY --keyring-backend $KEYRING --algo $KEYALGO
+yes $KEYPASSWD | echelond keys add $KEY --keyring-backend $KEYRING --algo $KEYALGO
 
 # Set moniker and chain-id for Echelon (Moniker can be anything, chain-id must be an integer)
 echelond init $MONIKER --chain-id $CHAINID
@@ -46,7 +47,7 @@ cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["max_ga
 # cat $HOME/.echelond/config/genesis.json | jq -r --arg current_date "$current_date" '.app_state["claims"]["params"]["airdrop_start_time"]=$current_date' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims records for validator account
-# amount_to_claim=1000000
+amount_to_claim=1000000
 # cat $HOME/.echelond/config/genesis.json | jq -r --arg node_address "$node_address" --arg amount_to_claim "$amount_to_claim" '.app_state["claims"]["claims_records"]=[{"initial_claimable_amount":$amount_to_claim, "actions_completed":[false, false, false, false],"address":$node_address}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Set claims decay
@@ -55,7 +56,7 @@ cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["max_ga
 
 # Claim module account:
 # 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || echelon15cvq3ljql6utxseh0zau9m8ve2j8erz8jy7kzu
-# cat $HOME/.echelond/config/genesis.json | jq -r --arg amount_to_claim "$amount_to_claim" '.app_state["bank"]["balances"] += [{"address":"echelon15cvq3ljql6utxseh0zau9m8ve2j8erz8jy7kzu","coins":[{"denom":"aechelon", "amount":$amount_to_claim}]}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+cat $HOME/.echelond/config/genesis.json | jq -r --arg amount_to_claim "$amount_to_claim" '.app_state["bank"]["balances"] += [{"address":"echelon15cvq3ljql6utxseh0zau9m8ve2j8erz8jy7kzu","coins":[{"denom":"aechelon", "amount":$amount_to_claim}]}]' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # disable produce empty block
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -95,11 +96,11 @@ echelond add-genesis-account $KEY 150000000000000000000000000aechelon --keyring-
 validators_supply=$(cat $HOME/.echelond/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-total_supply=150000000000000000000000000 # 1000000
+total_supply=150000000000000000001000000 # 1000000
 cat $HOME/.echelond/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
-# Sign genesis transaction
-echelond gentx $KEY 150000000000000000000000000aechelon --keyring-backend $KEYRING --chain-id $CHAINID
+# Sign genesis transaction for validator
+echelond gentx $KEY 1000000000000000000000000aechelon --keyring-backend $KEYRING --chain-id $CHAINID
 
 # Collect genesis tx
 echelond collect-gentxs
