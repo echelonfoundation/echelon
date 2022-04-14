@@ -3,6 +3,21 @@ before:
   - go mod download
 
 builds:
+  - id: "echelond-linux-amd64"
+    main: ./cmd/echelond
+    binary: bin/echelond
+    env:
+      - CGO_ENABLED=1
+      - CC=gcc
+      - CXX=g++
+    goos:
+      - linux
+    goarch:
+      - amd64
+    flags:
+      - -tags=cgo
+    ldflags:
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "echelond-linux-arm64"
     main: ./cmd/echelond
     binary: bin/echelond
@@ -46,7 +61,7 @@ archives:
       format: zip
   builds:
   - echelond-windows
-  - echelond-linux
+  - echelond-linux-amd64
   - echelond-linux-arm64
   
 checksum:
