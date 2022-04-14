@@ -24,9 +24,6 @@ parent:
   <a href="https://goreportcard.com/report/github.com/echelonfoundation/echelon">
     <img alt="Go report card" src="https://goreportcard.com/badge/github.com/echelonfoundation/echelon"/>
   </a>
-  <a href="https://bestpractices.coreinfrastructure.org/projects/5018">
-    <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/echelonfoundation/echelon">
-  </a>
 </div>
 <div align="center">
   <a href="https://discord.gg/ArXNfK99ae">
