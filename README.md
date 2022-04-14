@@ -30,7 +30,7 @@ parent:
 </div>
 <div align="center">
   <a href="https://discord.gg/ArXNfK99ae">
-    <img alt="Discord" src="https://img.shields.io/discord/809048090249134080.svg" />
+    <img alt="Discord" src="https://img.shields.io/discord/962917488180490250.svg" />
   </a>
   <a href="https://github.com/echelonfoundation/echelon/actions?query=branch%3Amain+workflow%3ALint">
     <img alt="Lint Status" src="https://github.com/echelonfoundation/echelon/actions/workflows/lint.yml/badge.svg?branch=main" />
