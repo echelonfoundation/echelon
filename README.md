@@ -69,7 +69,7 @@ and then move it into the echelond config (after you have initilized your node)
 
 ## Quick Start
 
-To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://echelon.dev/intro/overview.html) section from the documentation. You can also check the instructions to [Run a Node](https://echelon.dev/quickstart/run_node.html).
+To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://docs.ech.network) section from the documentation. You can also check the instructions to [Run a Node](https://docs.ech.network).
 
 ## Community
 
