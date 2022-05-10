@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -76,8 +77,18 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			config := serverCtx.Config
 			config.SetRoot(clientCtx.HomeDir)
 
-			config.P2P.MaxNumInboundPeers = 100
+			config.P2P.MaxNumInboundPeers = 240 // 8 to 1 ratio
 			config.P2P.MaxNumOutboundPeers = 30
+
+			// Set default seeds
+			seeds := []string{
+				"480db41faea6713405c93c505ff710a05d1fc801@94.250.203.190:26656",                
+				"41535ab44424500f44bb1b8d85fd941859991067@66.94.117.122:26656", 
+				"302ccf96853501c14060ffac2e1885bed6385f00@154.53.63.119:26656",
+				"c06315472b5489b8d8b88622b86bc1e29b94002d@209.145.61.212:26656",
+			}
+			config.P2P.Seeds = strings.Join(seeds, ",")
+
 			config.Mempool.Size = 10000
 			config.StateSync.TrustPeriod = 112 * time.Hour
 
