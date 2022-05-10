@@ -207,7 +207,7 @@ func initAppConfig(chainID string) (string, interface{}) {
 
 	// define a non-zero default minimum gas price on Evmos Mainnet
 	if strings.HasPrefix(chainID, "echelon_3000-") && (srvCfg.MinGasPrices == "" || srvCfg.MinGasPrices == "0aechelon") {
-		srvCfg.MinGasPrices = "0.0025aechelon"
+		srvCfg.MinGasPrices = "25000000000aechelon"
 	}
 
 	srvCfg.StateSync.SnapshotInterval = 1500
