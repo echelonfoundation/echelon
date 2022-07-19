@@ -1,6 +1,6 @@
 {
   "name": "echelon",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Echelon a Cosmos & EVM Hybrid Blockchain",
   "main": "index.js",
   "directories": {
