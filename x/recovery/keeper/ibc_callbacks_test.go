@@ -17,7 +17,7 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v3/testing"
 	ibcmock "github.com/cosmos/ibc-go/v3/testing/mock"
 
-	claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	// claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 	incentivestypes "github.com/echelonfoundation/echelon/v3/x/incentives/types"
 	"github.com/echelonfoundation/echelon/v3/x/recovery/keeper"
 	"github.com/echelonfoundation/echelon/v3/x/recovery/types"
@@ -41,7 +41,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 	// Setup Cosmos <=> Echelon IBC relayer
 	denom := "uatom"
 	sourceChannel := "channel-292"
-	echelonChannel := claimstypes.DefaultAuthorizedChannels[1]
+	echelonChannel := "channel-0"
 	path := fmt.Sprintf("%s/%s", transfertypes.PortID, echelonChannel)
 
 	timeoutHeight := clienttypes.NewHeight(0, 100)
@@ -260,8 +260,8 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 			func() {
 				// Setup Osmosis <=> Echelon IBC relayer
 				denom = "uosmo"
-				sourceChannel = "channel-204"
-				echelonChannel = claimstypes.DefaultAuthorizedChannels[0]
+				sourceChannel = "channel-262"
+				echelonChannel = "channel-8"
 				path = fmt.Sprintf("%s/%s", transfertypes.PortID, echelonChannel)
 
 				transfer := transfertypes.NewFungibleTokenPacketData(denom, "100", secpAddrCosmos, secpAddrEchelon)
@@ -509,7 +509,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacketFailTransfer() {
 	// Setup Cosmos <=> Echelon IBC relayer
 	denom := "uatom"
 	sourceChannel := "channel-292"
-	echelonChannel := claimstypes.DefaultAuthorizedChannels[1]
+	echelonChannel := "channel-0"
 	path := fmt.Sprintf("%s/%s", transfertypes.PortID, echelonChannel)
 
 	var mockTransferKeeper *MockTransferKeeper
