@@ -1,12 +1,7 @@
 {
   "name": "echelon",
-<<<<<<< HEAD
   "version": "1.0.5",
   "description": "Echelon a Cosmos & EVM Hybrid Blockchain",
-=======
-  "version": "1.0.0",
-  "description": "Echelon Cosmos/EVM Blockchain",
->>>>>>> parent of 0fca607... Default Updates for configuration
   "main": "index.js",
   "directories": {
     "doc": "docs"
