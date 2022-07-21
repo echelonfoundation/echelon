@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	"github.com/cosmos/cosmos-sdk/snapshots"
@@ -205,12 +204,11 @@ func initAppConfig(chainID string) (string, interface{}) {
 		panic(fmt.Errorf("unknown app config type %T", customAppConfig))
 	}
 
-	// define a non-zero default minimum gas price on Evmos Mainnet
-	if strings.HasPrefix(chainID, "echelon_3000-") && (srvCfg.MinGasPrices == "" || srvCfg.MinGasPrices == "0aechelon") {
-		srvCfg.MinGasPrices = "25000000000aechelon"
-	}
+	srvCfg.EVM.MaxTxGasWanted = 53948 // Lower allows more transaction throughput
 
-	srvCfg.StateSync.SnapshotInterval = 1500
+	srvCfg.MinGasPrices = "0.0025aechelon"
+
+	srvCfg.StateSync.SnapshotInterval =  0 // Change to 1500 but default to 0
 	srvCfg.StateSync.SnapshotKeepRecent = 2
 
 	return customAppTemplate, srvCfg
