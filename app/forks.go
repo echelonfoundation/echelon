@@ -23,7 +23,7 @@ func BeginBlockForks(ctx sdk.Context, app *Echelon) {
 			Info:   v2.UpgradeInfo,
 			Height: v2.UpgradeHeight,
 		}
-		err := app.UpgradeKeeper.ScheduleUpgrade(ctx, upgradePlan)
+		err := app.UpgradeKeeper.ScheduleUpgradeNoHeightCheck(ctx, upgradePlan)
 		if err != nil {
 			panic(err)
 		}

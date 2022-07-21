@@ -18,7 +18,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/echelonfoundation/echelon/v3/app"
-	// claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 	"github.com/echelonfoundation/echelon/v3/x/recovery/types"
 )
 
@@ -71,9 +71,9 @@ func (suite *KeeperTestSuite) SetupTest() {
 	types.RegisterQueryServer(queryHelper, suite.app.RecoveryKeeper)
 	suite.queryClient = types.NewQueryClient(queryHelper)
 
-	// claimsParams := claimstypes.DefaultParams()
-	// claimsParams.AirdropStartTime = suite.ctx.BlockTime()
-	// suite.app.ClaimsKeeper.SetParams(suite.ctx, claimsParams)
+	claimsParams := claimstypes.DefaultParams()
+	claimsParams.AirdropStartTime = suite.ctx.BlockTime()
+	suite.app.ClaimsKeeper.SetParams(suite.ctx, claimsParams)
 
 	stakingParams := suite.app.StakingKeeper.GetParams(suite.ctx)
 	stakingParams.BondDenom = claimsParams.GetClaimsDenom()

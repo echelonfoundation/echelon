@@ -208,7 +208,7 @@ func initAppConfig(chainID string) (string, interface{}) {
 
 	srvCfg.MinGasPrices = "0.0025aechelon"
 
-	srvCfg.StateSync.SnapshotInterval =  0 // Change to 1500 but default to 0
+	srvCfg.StateSync.SnapshotInterval = 0 // Only 1500 for non-validators
 	srvCfg.StateSync.SnapshotKeepRecent = 2
 
 	return customAppTemplate, srvCfg

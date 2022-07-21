@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	// "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	"github.com/echelonfoundation/echelon/v3/x/claims/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 

@@ -19,7 +19,7 @@ import (
 
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/echelonfoundation/echelon/v3/app"
-	// claimtypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	claimtypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 	inflationtypes "github.com/echelonfoundation/echelon/v3/x/inflation/types"
 	"github.com/echelonfoundation/echelon/v3/x/recovery/types"
 )
@@ -83,10 +83,10 @@ func (suite *IBCTestingSuite) SetupTest() {
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, suite.IBCCosmosChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
-	// claimparams := claimtypes.DefaultParams()
-	// claimparams.AirdropStartTime = suite.EchelonChain.GetContext().BlockTime()
-	// claimparams.EnableClaims = true
-	// suite.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetParams(suite.EchelonChain.GetContext(), claimparams)
+	claimparams := claimtypes.DefaultParams()
+	claimparams.AirdropStartTime = suite.EchelonChain.GetContext().BlockTime()
+	claimparams.EnableClaims = true
+	suite.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetParams(suite.EchelonChain.GetContext(), claimparams)
 
 	params := types.DefaultParams()
 	params.EnableRecovery = true

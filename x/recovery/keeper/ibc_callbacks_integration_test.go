@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/echelonfoundation/echelon/v3/app"
 	"github.com/echelonfoundation/echelon/v3/testutil"
-	// claimtypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
+	claimtypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
 	"github.com/echelonfoundation/echelon/v3/x/recovery/types"
 )
 
@@ -23,7 +23,7 @@ var _ = Describe("Recovery: Performing an IBC Transfer", Ordered, func() {
 		sender, receiver       string
 		senderAcc, receiverAcc sdk.AccAddress
 		timeout                uint64
-		// claim                  claimtypes.ClaimsRecord
+		claim                  claimtypes.ClaimsRecord
 	)
 
 	BeforeEach(func() {
@@ -32,7 +32,7 @@ var _ = Describe("Recovery: Performing an IBC Transfer", Ordered, func() {
 
 	Describe("from a non-authorized chain", func() {
 		BeforeEach(func() {
-			// params := claimtypes.DefaultParams()
+			params := claimtypes.DefaultParams()
 			params.AuthorizedChannels = []string{}
 			s.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetParams(s.EchelonChain.GetContext(), params)
 
@@ -100,7 +100,7 @@ var _ = Describe("Recovery: Performing an IBC Transfer", Ordered, func() {
 				Context("without completed actions", func() {
 					BeforeEach(func() {
 						amt := sdk.NewInt(int64(100))
-						// claim = claimtypes.NewClaimsRecord(amt)
+						claim = claimtypes.NewClaimsRecord(amt)
 						s.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetClaimsRecord(s.EchelonChain.GetContext(), senderAcc, claim)
 					})
 
@@ -120,12 +120,12 @@ var _ = Describe("Recovery: Performing an IBC Transfer", Ordered, func() {
 					BeforeEach(func() {
 						amt := sdk.NewInt(int64(100))
 						coins := sdk.NewCoins(sdk.NewCoin("aechelon", sdk.NewInt(int64(75))))
-						// claim = claimtypes.NewClaimsRecord(amt)
-						// claim.MarkClaimed(claimtypes.ActionIBCTransfer)
-						// s.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetClaimsRecord(s.EchelonChain.GetContext(), senderAcc, claim)
+						claim = claimtypes.NewClaimsRecord(amt)
+						claim.MarkClaimed(claimtypes.ActionIBCTransfer)
+						s.EchelonChain.App.(*app.Echelon).ClaimsKeeper.SetClaimsRecord(s.EchelonChain.GetContext(), senderAcc, claim)
 
 						// update the escrowed account balance to maintain the invariant
-						err := testutil.FundModuleAccount(s.EchelonChain.App.(*app.Echelon).BankKeeper, s.EchelonChain.GetContext(), coins)
+						err := testutil.FundModuleAccount(s.EchelonChain.App.(*app.Echelon).BankKeeper, s.EchelonChain.GetContext(), claimtypes.ModuleName, coins)
 						s.Require().NoError(err)
 
 						// aechelon & ibc tokens that originated from the sender's chain
