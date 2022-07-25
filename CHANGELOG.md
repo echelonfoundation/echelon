@@ -44,4 +44,5 @@ Echelon v1.1.2
 - Fixed protobuf duplicate warnings
 - Updated initial peers list configuration
 - Included genesis.json in main repo
-- Updated to Go Lang v1.18
+- x/erc20 module upgraded to use better regex
+- Updated to use Go Lang v1.18+

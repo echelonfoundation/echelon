@@ -570,7 +570,7 @@ localnet-show-logstream:
 ###############################################################################
 
 PACKAGE_NAME:=github.com/echelonfoundation/echelon
-GOLANG_CROSS_VERSION  = v1.17.1
+GOLANG_CROSS_VERSION  = v1.18
 GOPATH ?= '$(HOME)/go'
 release-dry-run:
 	docker run \
