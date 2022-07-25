@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -77,17 +77,39 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			config := serverCtx.Config
 			config.SetRoot(clientCtx.HomeDir)
 
+			// Echelon Default Configurations also found in cmd/echelond/root.go
 			config.P2P.MaxNumInboundPeers = 240 // 8 to 1 ratio
 			config.P2P.MaxNumOutboundPeers = 30
 
 			// Set default seeds
 			seeds := []string{
-				"480db41faea6713405c93c505ff710a05d1fc801@94.250.203.190:26656",                
-				"41535ab44424500f44bb1b8d85fd941859991067@66.94.117.122:26656", 
+				"480db41faea6713405c93c505ff710a05d1fc801@94.250.203.190:26656",
+				"41535ab44424500f44bb1b8d85fd941859991067@66.94.117.122:26656",
 				"302ccf96853501c14060ffac2e1885bed6385f00@154.53.63.119:26656",
 				"c06315472b5489b8d8b88622b86bc1e29b94002d@209.145.61.212:26656",
 			}
 			config.P2P.Seeds = strings.Join(seeds, ",")
+
+			peers := []string{
+				"00619d0710e367e00421223c03eda410bc1605f9@65.21.200.224:20656",
+				"13b15c072e638982ba0c102e7e7c5add60256eae@66.94.125.156:20304",
+				"cbf34b5ba7820b3bbf0a39e492fdc8665cfd8417@185.182.184.237:26656",
+				"eac7a65f64247da11922300df7aef2eb446cde8b@24.117.162.116:26656",
+				"a117b9bdd2b311097482be204a8b457317e21de5@209.145.62.69:26656",
+				"4cb7a9a2ea5c238cb56242669553bbf5f7d2cad6@154.12.245.199:26696",
+				"6b283c0dd751b015b4a9b6a60c514a7d1d169b8f@38.242.131.199:26656",
+				"395dc53caf836f04474aa8069e8099b0629763a1@154.53.63.113:26656",
+				"17fef6bc47f7fd69d3ca72d8da84fae785d59678@154.12.245.166:26656",
+				"31d04668d9b22b281f5f148ef93d8da9288ecf5f@51.15.93.52:26656",
+				"302ccf96853501c14060ffac2e1885bed6385f00@154.53.63.119:26656",
+				"ba4b0793a0ff10675939cd6be2b28b4429a63efd@185.182.184.20:26656",
+				"2bdc83cc8b257db83ff2960551d27095b0a05297@209.126.86.142:26656",
+				"480db41faea6713405c93c505ff710a05d1fc801@94.250.203.190:26656",
+				"c06315472b5489b8d8b88622b86bc1e29b94002d@209.145.61.212:26656",
+				"d563d717ec4bcb7547ed1a67f07743b1673ace63@65.108.105.25:10756",
+				"1fb4f150199532dc494893b8ec2b2dd3667100d3@185.169.252.163:26656",
+			}
+			config.P2P.PersistentPeers = strings.Join(peers, ",")
 
 			config.Mempool.Size = 10000
 			config.StateSync.TrustPeriod = 112 * time.Hour

@@ -43,7 +43,7 @@ parent:
 Echelon is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
 interoperable with Ethereum and Cosmos. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
 
-**Note**: Requires [Go 1.17.5+](https://golang.org/dl/)
+**Note**: Requires [Go 1.18+](https://golang.org/dl/)
 
 ## Installation
 
@@ -56,7 +56,7 @@ make install
 Or check out the latest [release](https://github.com/echelonfoundation/echelon/releases).
 
 ## Genesis
-To get onto our mainnet genesis download the genesis.json here
+To get onto our mainnet (echelon_3000-3) genesis download the genesis.json here
 
 `wget https://gist.githubusercontent.com/echelonfoundation/ee862f58850fc1b5ee6a6fdccc3130d2/raw/55c2c4ea2fee8a9391d0dc55b2c272adb804054a/genesis.json`
 
@@ -66,7 +66,7 @@ and then move it into the echelond config (after you have initilized your node)
 
 ## Quick Start
 
-To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://docs.ech.network) section from the documentation. You can also check the instructions to [Run a Node](https://docs.ech.network).
+To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://docs.ech.network) section from the documentation. You can also check the instructions to [Run a Node](https://docs.ech.network). Or read the Cosmos SDK and familiarize yourself with Cosmos SDK and Tendermint.
 
 ## Community
 
@@ -74,7 +74,8 @@ The following chat channels and forums are a great spot to ask questions about E
 
 - [Echelon Twitter](https://twitter.com/EchelonFDN)
 - [Echelon Discord](https://discord.gg/ArXNfK99ae)
-- [Echelon Telegram](https://t.me/echelonchain)
+- [Echelon Telegram](https://t.me/echelonANN)
+- [Official Website](https://ech.network)
 
 ## Contributing
 
