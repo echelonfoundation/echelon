@@ -79,10 +79,10 @@ For instance, to create a fork and work on a branch of it, you would:
 1. Create the fork on github, using the fork button.
 2. Go to the original repo checked out locally. (i.e. `$GOPATH/src/github.com/echelonfoundation/echelon`)
 3. `git remote rename origin upstream`
-4. `git remote add origin git@github.com:tharsis/echelon.git`
+4. `git remote add origin git@github.com:echelonfoundation/echelon.git`
 
 Now `origin` refers to my fork and `upstream` refers to the echelon version. So I can `git push -u origin master` to
-update my fork, and make pull requests to echelon from there. Of course, replace `tharsis` with your git handle.
+update my fork, and make pull requests to echelon from there. Of course, replace `echelonfoundation` with your git handle.
 
 To pull in updates from the origin repo, run:
 
