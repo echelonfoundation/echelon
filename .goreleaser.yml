@@ -49,9 +49,42 @@ builds:
       - -buildmode=exe
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "echelond-darwin"
+    main: ./cmd/echelond
+    binary: bin/echelond
+    env:
+      - CGO_ENABLED=1
+      - CC=o64-clang
+      - CXX=o64-clang++
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    flags:
+        - -tags=cgo
+    ldflags:
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "echelond-darwin-arm64"
+    main: ./cmd/echelond
+    binary: bin/echelond
+    env:
+      - CGO_ENABLED=1
+      - CC=oa64-clang
+      - CXX=oa64-clang++
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    flags:
+      - -tags=cgo
+    ldflags:
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+universal_binaries:
+  - replace: true
 archives:
 - name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
   replacements:
+    darwin: Darwin
     linux: Linux
     windows: Windows
     amd64: x86_64
@@ -59,6 +92,8 @@ archives:
     - goos: windows
       format: zip
   builds:
+  - echelond-darwin
+  - echelond-darwin-arm64
   - echelond-windows
   - echelond-linux-amd64
   - echelond-linux-arm64
