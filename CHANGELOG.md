@@ -35,7 +35,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
-Echelon v1.1.2
+Echelon v1.1.3
 
 - Upgraded Cosmos SDK to latest v0.45.6 *See Cosmos-SDK changelog for breaking changes*
 - Upgraded Ethermint v0.14.1
