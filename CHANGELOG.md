@@ -34,6 +34,15 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+Echelon v1.2.0 - WIP NO DATES FINALIZED YET
+
+- Block time speed up! 1s finality vs previous 5s!
+- Set default timeout_commit = "1s" (If you are a validator, please change)
+- WIP new `x/vrf` module 
+- WIP new `x/oracle` module
+- WIP new `x/anon` module
+
+
 
 Echelon v1.1.4
 
