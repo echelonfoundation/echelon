@@ -1,0 +1,82 @@
+syntax = "proto3";
+package echelon.vrf.v1;
+
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "echelon/vrf/v1/randomval.proto";
+import "echelon/vrf/v1/userval.proto";
+// this line is used by starport scaffolding # 1
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/echelonfoundation/echelon/v3/x/vrf/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Queries a randomval by index.
+  rpc Randomval(QueryGetRandomvalRequest) returns (QueryGetRandomvalResponse) {
+    option (google.api.http).get = "/echelon/vrf/randomval/{index}";
+  }
+
+  // Queries a list of randomval items.
+  rpc RandomvalAll(QueryAllRandomvalRequest)
+      returns (QueryAllRandomvalResponse) {
+    option (google.api.http).get = "/echelon/vrf/randomval";
+  }
+
+  // Queries a userval by index.
+  rpc Userval(QueryGetUservalRequest) returns (QueryGetUservalResponse) {
+    option (google.api.http).get = "/echelon/vrf/userval/{index}";
+  }
+
+  // Queries a list of userval items.
+  rpc UservalAll(QueryAllUservalRequest) returns (QueryAllUservalResponse) {
+    option (google.api.http).get = "/echelon/vrf/userval";
+  }
+
+  // Queries a list of verifyValues items.
+  rpc VerifyValues(QueryVerifyValuesRequest)
+      returns (QueryVerifyValuesResponse) {
+    option (google.api.http).get = "/echelon/vrf/verifyValues";
+  }
+
+  // this line is used by starport scaffolding # 2
+}
+
+message QueryGetRandomvalRequest { string index = 1; }
+
+message QueryGetRandomvalResponse {
+  Randomval randomval = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllRandomvalRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllRandomvalResponse {
+  repeated Randomval randomval = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetUservalRequest { string index = 1; }
+
+message QueryGetUservalResponse {
+  Userval userval = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllUservalRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllUservalResponse {
+  repeated Userval userval = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryVerifyValuesRequest {
+  string pubkey = 1;
+  string message = 2;
+  string vrv = 3;
+  string proof = 4;
+}
+
+message QueryVerifyValuesResponse { string verified = 1; }

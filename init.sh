@@ -2,7 +2,7 @@ KEY="yourkey"
 CHAINID="echelon_3000-4"
 MONIKER="Yournodename"
 KEYRING="file"
-KEYPASSWD="testing123456"
+KEYPASSWD="password"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="warn"
 # to trace evm
@@ -29,7 +29,8 @@ cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["deposit_params"
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
-cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["voting_params"]["voting_period"]="600s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+# For testing purposes only
+cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["voting_params"]["voting_period"]="30s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Decrease the block time target spacing 1000ms = 1s
 cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["time_iota_ms"]="1000"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json

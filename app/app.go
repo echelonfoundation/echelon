@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"fmt"
+	// "fmt"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -79,7 +79,6 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 
 	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
@@ -109,7 +108,9 @@ import (
 	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
 
 	"github.com/echelonfoundation/echelon/v3/app/ante"
-	v2 "github.com/echelonfoundation/echelon/v3/app/upgrades/v2"
+	// v2 "github.com/echelonfoundation/echelon/v3/app/upgrades/v2"
+	// storetypes "github.com/cosmos/cosmos-sdk/store/types"
+
 	// "github.com/echelonfoundation/echelon/v3/x/claims"
 	// claimskeeper "github.com/echelonfoundation/echelon/v3/x/claims/keeper"
 	// claimstypes "github.com/echelonfoundation/echelon/v3/x/claims/types"
@@ -136,7 +137,7 @@ import (
 
 	// vrfmod "github.com/echelonfoundation/echelon/v3/x/vrf"
 	// vrfmodkeeper "github.com/echelonfoundation/echelon/v3/x/vrf/keeper"
-	vrfmodtypes "github.com/echelonfoundation/echelon/v3/x/vrf/types"
+	// vrfmodtypes "github.com/echelonfoundation/echelon/v3/x/vrf/types"
 )
 
 func init() {
@@ -534,7 +535,7 @@ func NewEchelon(
 	// 	keys[vrfmodtypes.StoreKey],
 	// 	keys[vrfmodtypes.MemStoreKey],
 	// )
-	// randomModule := vrfmod.NewAppModule(appCodec, app.VRFKeeper)
+	// vrfmod := vrfmod.NewAppModule(appCodec, app.VRFKeeper)
 
 	// create IBC module from bottom to top of stack
 	var transferStack porttypes.IBCModule
@@ -598,7 +599,7 @@ func NewEchelon(
 		// claims.NewAppModule(appCodec, *app.ClaimsKeeper),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		recovery.NewAppModule(*app.RecoveryKeeper),
-		// randomModule,
+		// vrfmod,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -1027,35 +1028,31 @@ func initParamsKeeper(
 
 func (app *Echelon) setupUpgradeHandlers() {
 	// v2 handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v2.UpgradeName,
-		v2.CreateUpgradeHandler(app.mm, app.configurator),
-	)
+	// app.UpgradeKeeper.SetUpgradeHandler(
+	// 	v2.UpgradeName,
+	// 	v2.CreateUpgradeHandler(app.mm, app.configurator),
+	// )
 
-	// When a planned update height is reached, the old binary will panic
-	// writing on disk the height and name of the update that triggered it
-	// This will read that value, and execute the preparations for the upgrade.
-	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-	if err != nil {
-		panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
-	}
+	// upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	// if err != nil {
+	// 	panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
+	// }
 
-	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		return
-	}
+	// if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+	// 	return
+	// }
 
-	var storeUpgrades *storetypes.StoreUpgrades
+	// var storeUpgrades *storetypes.StoreUpgrades
 
-	switch upgradeInfo.Name {
-	case v2.UpgradeName:
-		// v2 Upgrade adds new x/random module
-		storeUpgrades = &storetypes.StoreUpgrades{
-            Added: []string{vrfmodtypes.StoreKey},
-        }
-	}
+	// switch upgradeInfo.Name {
+	// case v2.UpgradeName:
 
-	if storeUpgrades != nil {
-		// configure store loader that checks if version == upgradeHeight and applies store upgrades
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
-	}
+	// 	storeUpgrades = &storetypes.StoreUpgrades{
+    //         Added: []string{vrfmodtypes.StoreKey},
+    //     }
+	// }
+
+	// if storeUpgrades != nil {
+	//  	app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
+	// }
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateRandom{}, "random/CreateRandom", nil)
+	cdc.RegisterConcrete(&MsgCreateRandom{}, "vrf/CreateRandom", nil)
 	// this line is used by starport scaffolding # 2
 }
 

@@ -92,6 +92,6 @@ echelond tx gov submit-proposal param-change [proposal-file] [flags]
 | `GET`  | `/echelon/inflation/v1/period`                  | Gets current inflation period                 |
 | `GET`  | `/echelon/inflation/v1/epoch_mint_provision`    | Gets current inflation epoch provisions value |
 | `GET`  | `/echelon/inflation/v1/skipped_epochs`          | Gets current number of skipped epochs         |
-| `GET`  | `/echelon/inflation/v1/total_supply`          | Gets current total supply                     |
+| `GET`  | `/echelon/inflation/v1/total_supply`            | Gets current total supply                     |
 | `GET`  | `/echelon/inflation/v1/inflation_rate`          | Gets current inflation rate                   |
 | `GET`  | `/echelon/inflation/v1/params`                  | Gets current inflation parameters             |

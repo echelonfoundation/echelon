@@ -1,0 +1,19 @@
+syntax = "proto3";
+package echelon.vrf.v1;
+
+option go_package = "github.com/echelonfoundation/echelon/v3/x/vrf/types";
+
+message Randomval {
+  string index = 1;
+  string creator = 2;
+  string vrv = 3;
+  uint64 multiplier = 4;
+  string proof = 5;
+  string pubk = 6;
+  string message = 7;
+  uint64 parsedvrv = 8;   // bytes to int converted
+  double floatvrv = 9;    // floatvrv = full vrv / max uint64 to get number in
+                          // between or equal to 0 and 1
+  uint64 finalvrv = 10;   // int vrv = floatvrv * multiplier
+  double finalvrvfl = 11; // float vrv = floatvrv * multiplier casted to int
+}

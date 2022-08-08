@@ -80,7 +80,7 @@ func (k Keeper) VerifyRandomNumber(ctx sdk.Context, req *types.QueryVerifyValues
 
 	proof_value, err := hex.DecodeString(req.Proof)
 	if err != nil {
-		return "false", sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Proof value cannot be decoded")
+		return "false", sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Proof VRF value cannot be decoded")
 	}
 
 	is_verified := public_key.Verify(message_value, vrv_value, proof_value)

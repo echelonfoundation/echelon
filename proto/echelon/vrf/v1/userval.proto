@@ -1,0 +1,10 @@
+syntax = "proto3";
+package echelon.vrf.v1;
+
+option go_package = "github.com/echelonfoundation/echelon/v3/x/vrf/types";
+
+message Userval {
+  string index = 1;
+  string useraddr = 2;
+  int64 count = 3;
+}
