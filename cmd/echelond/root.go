@@ -102,7 +102,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 			}
 
 			serverCtx := sdkserver.GetServerContextFromCmd(cmd)
-			serverCtx.Config.Consensus.TimeoutCommit = time.Second
+			// five seconds is the default timeout commit
+			serverCtx.Config.Consensus.TimeoutCommit = 5 * time.Second
+
 
 			return sdkserver.SetCmdServerContext(cmd, serverCtx)
 		},
