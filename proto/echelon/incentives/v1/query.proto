@@ -19,12 +19,14 @@ service Query {
 
   // Incentive retrieves a registered incentive
   rpc Incentive(QueryIncentiveRequest) returns (QueryIncentiveResponse) {
-    option (google.api.http).get = "/echelon/incentives/v1/incentives/{contract}";
+    option (google.api.http).get =
+        "/echelon/incentives/v1/incentives/{contract}";
   }
 
   // GasMeters retrieves active gas meters for a given contract
   rpc GasMeters(QueryGasMetersRequest) returns (QueryGasMetersResponse) {
-    option (google.api.http).get = "/echelon/incentives/v1/gas_meters/{contract}";
+    option (google.api.http).get =
+        "/echelon/incentives/v1/gas_meters/{contract}";
   }
 
   // GasMeter Retrieves a active gas meter

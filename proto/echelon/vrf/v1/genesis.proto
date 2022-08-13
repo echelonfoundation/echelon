@@ -1,0 +1,15 @@
+syntax = "proto3";
+package echelon.vrf.v1;
+
+import "echelon/vrf/v1/randomval.proto";
+import "echelon/vrf/v1/userval.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/echelonfoundation/echelon/v3/x/vrf/types";
+
+// GenesisState defines the vrf module's genesis state.
+message GenesisState {
+  repeated Randomval randomvalList = 1 [ (gogoproto.nullable) = false ];
+  repeated Userval uservalList = 2 [ (gogoproto.nullable) = false ];
+}

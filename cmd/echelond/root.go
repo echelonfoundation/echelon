@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	"github.com/cosmos/cosmos-sdk/snapshots"
@@ -94,7 +95,18 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 			// TODO: define our own token
 			customAppTemplate, customAppConfig := initAppConfig(initClientCtx.ChainID)
 
-			return sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig)
+			// create a new server and change the default Consensus Timeout Commit to 1s
+			err = sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig)
+			if err != nil {
+				return err
+			}
+
+			serverCtx := sdkserver.GetServerContextFromCmd(cmd)
+			// five seconds is the default timeout commit
+			serverCtx.Config.Consensus.TimeoutCommit = 5 * time.Second
+
+
+			return sdkserver.SetCmdServerContext(cmd, serverCtx)
 		},
 	}
 

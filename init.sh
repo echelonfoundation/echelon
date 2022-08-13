@@ -1,8 +1,8 @@
 KEY="yourkey"
-CHAINID="echelon_3000-3"
+CHAINID="echelon_3000-4"
 MONIKER="Yournodename"
 KEYRING="file"
-KEYPASSWD=""
+KEYPASSWD="password"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="warn"
 # to trace evm
@@ -11,12 +11,6 @@ TRACE=""
 
 # validate dependencies are installed
 command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/"; exit 1; }
-
-# Reinstall daemon
-rm -rf ~/.echelond*
-make install
-# Copy the built binary to the correct location
-cp ~/go/bin/echelond /usr/local/bin/echelond
 
 # Set client config
 echelond config keyring-backend $KEYRING
@@ -34,6 +28,9 @@ cat $HOME/.echelond/config/genesis.json | jq '.app_state["crisis"]["constant_fee
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 cat $HOME/.echelond/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="aechelon"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
+
+# For testing purposes only
+cat $HOME/.echelond/config/genesis.json | jq '.app_state["gov"]["voting_params"]["voting_period"]="30s"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json
 
 # Decrease the block time target spacing 1000ms = 1s
 cat $HOME/.echelond/config/genesis.json | jq '.consensus_params["block"]["time_iota_ms"]="1000"' > $HOME/.echelond/config/tmp_genesis.json && mv $HOME/.echelond/config/tmp_genesis.json $HOME/.echelond/config/genesis.json

@@ -40,8 +40,8 @@ parent:
   </a>
 </div>
 
-Echelon is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
-interoperable with Ethereum and Cosmos. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
+Echelon (ECH) is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
+interoperable with Ethereum and Cosmos. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine with [EVMOS Ethermint](https://github.com/evmos/ethermint).
 
 **Note**: Requires [Go 1.18+](https://golang.org/dl/)
 
@@ -62,11 +62,13 @@ To get onto our mainnet (echelon_3000-3) genesis download the genesis.json here
 
 and then move it into the echelond config (after you have initilized your node)
 
+`echelond init <nodename> --chain-id echelon_3000-3`
+
 `mv genesis.json ~/.echelond/config/`
 
 ## Quick Start
 
-To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://docs.ech.network) section from the documentation. You can also check the instructions to [Run a Node](https://docs.ech.network). Or read the Cosmos SDK and familiarize yourself with Cosmos SDK and Tendermint.
+To learn how the Echelon works from a high-level perspective, go to the [Introduction](https://docs.ech.network) section from the documentation. You can also check the instructions to [Run a Node](https://docs.ech.network). You can also read the Cosmos SDK and familiarize yourself with Cosmos SDK, Tendermint, and Ethermint.
 
 ## Community
 
@@ -76,9 +78,12 @@ The following chat channels and forums are a great spot to ask questions about E
 - [Echelon Discord](https://discord.gg/ArXNfK99ae)
 - [Echelon Telegram](https://t.me/echelonANN)
 - [Official Website](https://ech.network)
+- [Official Dapp](https://app.ech.network)
 
 ## Contributing
 
 Looking for a good place to start contributing? Check out some [`good first issues`](https://github.com/echelonfoundation/echelon/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
+
+Original codebase forked from [EVMOS](https://github.com/evmos/evmos)
 
 For additional instructions, standards and style guides, please refer to the [Contributing](./CONTRIBUTING.md) document.

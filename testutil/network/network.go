@@ -106,7 +106,7 @@ func DefaultConfig() Config {
 		AccountRetriever:  authtypes.AccountRetriever{},
 		AppConstructor:    NewAppConstructor(encCfg),
 		GenesisState:      app.ModuleBasics.DefaultGenesis(encCfg.Marshaler),
-		TimeoutCommit:     2 * time.Second,
+		TimeoutCommit:     time.Second, // 1 second
 		ChainID:           fmt.Sprintf("echelon_%d-1", tmrand.Int63n(9999999999999)+1),
 		NumValidators:     4,
 		BondDenom:         ethermint.AttoPhoton,

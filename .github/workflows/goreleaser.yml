@@ -19,10 +19,10 @@ jobs:
           check-latest: true
       - name: release dry run
         run: make release-dry-run
-      - name: setup release environment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |-
-          echo 'GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}}' > .release-env
-      - name: release publish
-        run: make release
+      # - name: setup release environment - uncomment for production release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |-
+      #     echo 'GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}}' > .release-env
+      # - name: release publish
+      #   run: make release

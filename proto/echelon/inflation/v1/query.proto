@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "echelon/inflation/v1/genesis.proto";
 
-
 option go_package = "github.com/echelonfoundation/echelon/v3/x/inflation/types";
 
 // Query provides defines the gRPC querier service.
@@ -29,8 +28,7 @@ service Query {
   }
 
   // TotalSupply retrieves the total number of skipped epochs.
-  rpc TotalSupply(QueryTotalSupplyRequest)
-      returns (QueryTotalSupplyResponse) {
+  rpc TotalSupply(QueryTotalSupplyRequest) returns (QueryTotalSupplyResponse) {
     option (google.api.http).get = "/echelon/inflation/v1/total_supply";
   }
 
@@ -69,19 +67,23 @@ message QueryEpochMintProvisionResponse {
   ];
 }
 
-// QuerySkippedEpochsRequest is the request type for the Query/SkippedEpochs RPC method.
+// QuerySkippedEpochsRequest is the request type for the Query/SkippedEpochs RPC
+// method.
 message QuerySkippedEpochsRequest {}
 
-// QuerySkippedEpochsResponse is the response type for the Query/SkippedEpochs RPC method.
+// QuerySkippedEpochsResponse is the response type for the Query/SkippedEpochs
+// RPC method.
 message QuerySkippedEpochsResponse {
   // number of epochs that the inflation module has been disabled.
   uint64 skipped_epochs = 1;
 }
 
-// QueryTotalSupplyRequest is the request type for the Query/TotalSupply RPC method.
+// QueryTotalSupplyRequest is the request type for the Query/TotalSupply RPC
+// method.
 message QueryTotalSupplyRequest {}
 
-// QueryTotalSupplyResponse is the response type for the Query/TotalSupply RPC method.
+// QueryTotalSupplyResponse is the response type for the Query/TotalSupply RPC
+// method.
 message QueryTotalSupplyResponse {
   // total amount of coins in circulation
   cosmos.base.v1beta1.DecCoin total_supply = 1 [
@@ -90,10 +92,12 @@ message QueryTotalSupplyResponse {
   ];
 }
 
-// QueryInflationRateRequest is the request type for the Query/InflationRate RPC method.
+// QueryInflationRateRequest is the request type for the Query/InflationRate RPC
+// method.
 message QueryInflationRateRequest {}
 
-// QueryInflationRateResponse is the response type for the Query/InflationRate RPC method.
+// QueryInflationRateResponse is the response type for the Query/InflationRate
+// RPC method.
 message QueryInflationRateResponse {
   // rate by which the total supply increases within one period
   string inflation_rate = 1 [
