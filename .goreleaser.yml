@@ -38,8 +38,8 @@ builds:
     binary: bin/echelond
     env:
       - CGO_ENABLED=1
-      - CC=gcc
-      - CXX=g++
+      - CC=riscv64-linux-gnu-gcc
+      - CXX=riscv64-linux-gnu-g++
     goos:
       - linux
     goarch:
