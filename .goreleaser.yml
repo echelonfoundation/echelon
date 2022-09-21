@@ -33,6 +33,21 @@ builds:
       - -tags=cgo
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  # - id: "echelond-linux-riscv64"
+  #   main: ./cmd/echelond
+  #   binary: bin/echelond
+  #   env:
+  #     - CGO_ENABLED=1
+  #     - CC=riscv64-linux-gnu-gcc
+  #     - CXX=riscv64-linux-gnu-g++
+  #   goos:
+  #     - linux
+  #   goarch:
+  #     - riscv64
+  #   flags:
+  #     - -tags=cgo
+  #   ldflags:
+  #     - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=echelon -X github.com/cosmos/cosmos-sdk/version.AppName=echelond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "echelond-windows"
     main: ./cmd/echelond
     binary: bin/echelond
@@ -97,6 +112,7 @@ archives:
   - echelond-windows
   - echelond-linux-amd64
   - echelond-linux-arm64
+  # - echelond-linux-riscv64 - Github actions do not support yet, but you can build directly on riscv64 arch by running make install in this directory (Go v1.18+)
   
 checksum:
   name_template: 'checksums.txt'

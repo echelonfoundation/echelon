@@ -152,19 +152,19 @@ Where metadata.json contains (example):
   "description": "staking, gas and governance token of the Echelon testnets"
   "denom_units": [
 		{
-			"denom": "aechelon",
+			"denom": "ibc/<HASH>",
 			"exponent": 0,
-			"aliases": ["atto echelon"]
+			"aliases": ["ibcuosmo"]
 		},
 		{
-			"denom": "echelon",
-			"exponent": 18
+				"denom": "OSMO",
+				"exponent": 6
 		}
 	],
-	"base": "aechelon",
-	"display: "echelon",
-	"name": "Echelon",
-	"symbol": "ECH"
+	"base": "ibc/<HASH>",
+	"display": "OSMO",
+	"name": "Osmo",
+	"symbol": "OSMO"
 }`, version.AppName,
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
