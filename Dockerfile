@@ -1,4 +1,4 @@
-FROM golang:1.18.0-alpine3.15 as builder
+FROM golang:1.19.3-alpine3.15 as builder
 
 LABEL author="echelonfoundation"
 
@@ -17,7 +17,7 @@ WORKDIR /echelon
 RUN make install
 
 # final image
-FROM golang:1.18.0-alpine3.15
+FROM golang:1.19.3-alpine3.15
 
 RUN mkdir -p /data
 
