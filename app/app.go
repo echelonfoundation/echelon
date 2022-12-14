@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	// "fmt"
+	"fmt"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -108,8 +108,8 @@ import (
 	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
 
 	"github.com/echelonfoundation/echelon/v3/app/ante"
-	// v2 "github.com/echelonfoundation/echelon/v3/app/upgrades/v2"
-	// storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	v2 "github.com/echelonfoundation/echelon/v3/app/upgrades/v2"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 
 	// "github.com/echelonfoundation/echelon/v3/x/claims"
 	// claimskeeper "github.com/echelonfoundation/echelon/v3/x/claims/keeper"
@@ -135,9 +135,9 @@ import (
 	vestingkeeper "github.com/echelonfoundation/echelon/v3/x/vesting/keeper"
 	vestingtypes "github.com/echelonfoundation/echelon/v3/x/vesting/types"
 
-	// vrfmod "github.com/echelonfoundation/echelon/v3/x/vrf"
-	// vrfmodkeeper "github.com/echelonfoundation/echelon/v3/x/vrf/keeper"
-	// vrfmodtypes "github.com/echelonfoundation/echelon/v3/x/vrf/types"
+	vrfmod "github.com/echelonfoundation/echelon/v3/x/vrf"
+	vrfmodkeeper "github.com/echelonfoundation/echelon/v3/x/vrf/keeper"
+	vrfmodtypes "github.com/echelonfoundation/echelon/v3/x/vrf/types"
 )
 
 func init() {
@@ -197,7 +197,7 @@ var (
 		epochs.AppModuleBasic{},
 		// claims.AppModuleBasic{},
 		recovery.AppModuleBasic{},
-		// vrfmod.AppModuleBasic{},
+		vrfmod.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -281,8 +281,8 @@ type Echelon struct {
 	RecoveryKeeper   *recoverykeeper.Keeper
 
 	// VRF keepers
-	// VRFKeeper       vrfmodkeeper.Keeper
-	// ScopedVRFKeeper capabilitykeeper.ScopedKeeper
+	VRFKeeper       vrfmodkeeper.Keeper
+	ScopedVRFKeeper capabilitykeeper.ScopedKeeper
 
 	// the module manager
 	mm *module.Manager
@@ -339,7 +339,7 @@ func NewEchelon(
 		// echelon keys
 		inflationtypes.StoreKey, erc20types.StoreKey, incentivestypes.StoreKey,
 		epochstypes.StoreKey, vestingtypes.StoreKey,
-		// vrfmodtypes.StoreKey,
+		vrfmodtypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -530,12 +530,12 @@ func NewEchelon(
 	// - Airdrop Claims Middleware
 	// - Transfer
 
-	// app.VRFKeeper = *vrfmodkeeper.NewKeeper(
-	// 	appCodec,
-	// 	keys[vrfmodtypes.StoreKey],
-	// 	keys[vrfmodtypes.MemStoreKey],
-	// )
-	// vrfmod := vrfmod.NewAppModule(appCodec, app.VRFKeeper)
+	app.VRFKeeper = *vrfmodkeeper.NewKeeper(
+		appCodec,
+		keys[vrfmodtypes.StoreKey],
+		keys[vrfmodtypes.MemStoreKey],
+	)
+	vrfmod := vrfmod.NewAppModule(appCodec, app.VRFKeeper)
 
 	// create IBC module from bottom to top of stack
 	var transferStack porttypes.IBCModule
@@ -599,7 +599,7 @@ func NewEchelon(
 		// claims.NewAppModule(appCodec, *app.ClaimsKeeper),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		recovery.NewAppModule(*app.RecoveryKeeper),
-		// vrfmod,
+		vrfmod,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -636,7 +636,7 @@ func NewEchelon(
 		// claimstypes.ModuleName,
 		incentivestypes.ModuleName,
 		recoverytypes.ModuleName,
-		// vrfmodtypes.ModuleName,
+		vrfmodtypes.ModuleName,
 	)
 
 	// NOTE: fee market module must go last in order to retrieve the block gas used.
@@ -669,7 +669,7 @@ func NewEchelon(
 		erc20types.ModuleName,
 		incentivestypes.ModuleName,
 		recoverytypes.ModuleName,
-		// vrfmodtypes.ModuleName,
+		vrfmodtypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -705,7 +705,7 @@ func NewEchelon(
 		incentivestypes.ModuleName,
 		epochstypes.ModuleName,
 		recoverytypes.ModuleName,
-		// vrfmodtypes.ModuleName,
+		vrfmodtypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
 
@@ -1022,37 +1022,37 @@ func initParamsKeeper(
 	// paramsKeeper.Subspace(claimstypes.ModuleName)
 	paramsKeeper.Subspace(incentivestypes.ModuleName)
 	paramsKeeper.Subspace(recoverytypes.ModuleName)
-	// paramsKeeper.Subspace(vrfmodtypes.ModuleName)
+	paramsKeeper.Subspace(vrfmodtypes.ModuleName)
 	return paramsKeeper
 }
 
 func (app *Echelon) setupUpgradeHandlers() {
 	// v2 handler
-	// app.UpgradeKeeper.SetUpgradeHandler(
-	// 	v2.UpgradeName,
-	// 	v2.CreateUpgradeHandler(app.mm, app.configurator),
-	// )
+	app.UpgradeKeeper.SetUpgradeHandler(
+		v2.UpgradeName,
+		v2.CreateUpgradeHandler(app.mm, app.configurator),
+	)
 
-	// upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-	// if err != nil {
-	// 	panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
-	// }
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
+	}
 
-	// if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-	// 	return
-	// }
+	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		return
+	}
 
-	// var storeUpgrades *storetypes.StoreUpgrades
+	var storeUpgrades *storetypes.StoreUpgrades
 
-	// switch upgradeInfo.Name {
-	// case v2.UpgradeName:
+	switch upgradeInfo.Name {
+	case v2.UpgradeName:
 
-	// 	storeUpgrades = &storetypes.StoreUpgrades{
-    //         Added: []string{vrfmodtypes.StoreKey},
-    //     }
-	// }
+		storeUpgrades = &storetypes.StoreUpgrades{
+            Added: []string{vrfmodtypes.StoreKey},
+        }
+	}
 
-	// if storeUpgrades != nil {
-	//  	app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
-	// }
+	if storeUpgrades != nil {
+	 	app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
+	}
 }
