@@ -16,7 +16,7 @@ SIMAPP = ./app
 HTTPS_GIT := https://github.com/echelonfoundation/echelon.git
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
-NAMESPACE := tharsishq
+NAMESPACE := echelonfoundation
 PROJECT := echelon
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 COMMIT_HASH := $(shell git rev-parse --short=7 HEAD)
@@ -149,7 +149,7 @@ build-docker:
 	$(DOCKER) create --name echelon -t -i ${DOCKER_IMAGE}:latest echelon
 	# move the binaries to the ./build directory
 	mkdir -p ./build/
-	$(DOCKER) cp echelon:/usr/bin/echelond ./build/
+	$(DOCKER) cp echelon:/usr/local/bin/echelond ./build/
 
 push-docker: build-docker
 	$(DOCKER) push ${DOCKER_IMAGE}:${DOCKER_TAG}
