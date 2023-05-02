@@ -19,7 +19,7 @@ jobs:
           check-latest: true
       - name: release dry run
         run: make release-dry-run
-      - name: setup release environment - uncomment for production release
+      - name: setup release environment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
