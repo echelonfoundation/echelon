@@ -30,6 +30,9 @@ func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) 
 	vrv, proof := sk.Prove(a_message) // Generate vrv (verifiable random value) and proof
 	pub_key, ok_bool := sk.Public()   // public key creation
 
+	//dirtyfix vrf consensus split
+	vrv = []byte("0")
+
 	if ok_bool == false {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Public Key is not generated")
 	}
